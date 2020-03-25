@@ -1,4 +1,4 @@
-/// 取引先を取得する
+﻿/// 取引先を取得する
 /// </summary>
 /// <param name="keys">検索条件</param>
 using System;
@@ -16,7 +16,7 @@ namespace OrderEdit.Schema
         public string OrdId { get; set; }
     }
 
-    public enum RowType
+    public enum RowType 
     {
         New,
         Editing,
