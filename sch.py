@@ -6,6 +6,8 @@ import time # to find runtime
 start_time = time.time()
 
 eng_list_of_translated_comments = []
+total_comment_count = 0
+
 #extracting comments from the source file
 def sourceComments(filename,string):
     file_lines =[]
@@ -18,7 +20,9 @@ def sourceComments(filename,string):
                 eng_list_of_translated_comments.append(string_to_add)
                 removeNewlineChar = eachline.rstrip()
                 addNewLine = ' '.join([removeNewlineChar,string_to_add,'\n'])
-                file_lines.append(addNewLine)               
+                file_lines.append(addNewLine)
+                global total_comment_count 
+                total_comment_count += 1               
         #print(*eng_list_of_translated_comments,sep='\n')print(len(eng_list_of_translated_comments))
 
     with open(filename,'w',encoding='utf-8')as wo:
@@ -85,19 +89,59 @@ def startProgram(path,string):
                     counter.append(file)
     return counter
         
+##Workaround to solve the daily limit() Json decode error on accessing the google translate api 
+## - manually update a single root folder and expect .cs files to be translated 
 
-                
-        
-if startProgram('C:\\Users\\b.mushtaq\\testfolder','//'):
-    print('\n Comments found')               
-    print(counter)
+#C:\\Users\\b.mushtaq\\testfolder
+folder_path = 'C:\\Users\\b.mushtaq\\Downloads\\Code\\CodeEngComment\\3_入金\\PaymentEdit'        
+if startProgram(folder_path,'//'):
+    print('\n Comments found')
     print("Total relevant c# files -"+str(len(counter)))
+    print("Total comments in this iteration -"+str(total_comment_count))
+    store_comment_count_location = 'C:\\Users\\b.mushtaq\\Downloads\\Code\\TotalComments.txt'
+    with open(store_comment_count_location,'r+')as fo:
+        all_lines = fo.readlines()
+        last_line = all_lines[-1]
+        updated_total_value = total_comment_count+int(last_line)
+        fo.write('\n%d' % updated_total_value)
+    end_time = time.time()
+    print("\n Time in seconds"+str(end_time-start_time))
 else:
-    print('\n No comments found')
+    print('\n No comments Try again')
 
-end_time = time.time()
-print("\n"+str(end_time-start_time))
-# if  sourceComments('Schema.cs','//'):
-#     print('\n Comments found')
+#     print('\n Comments found')               
+#     print(counter)
+#     print("Total relevant c# files -"+str(len(counter)))
+#     print("Total comments in this iteration -"+str(total_comment_count))
+#     end_time = time.time()
+#     print("\n Time in seconds"+str(end_time-start_time))
 # else:
-#     print('\n Try again')
+#     print('\n No comments found')
+
+### trying file to count work sample code--
+# current = 100
+# store_comment_count_location = 'C:\\Users\\b.mushtaq\\Downloads\\Code\\TotalComments.txt'
+# with open (store_comment_count_location,'r+',encoding='utf-8')as fo:
+#         last_line = fo.readlines()
+#         ll = last_line[-1]
+#         updated_total_value = current+int(ll)
+#         fo.write('\n%d' % updated_total_value)
+###
+
+### code for individual files
+file_path = 'C:\\Users\\b.mushtaq\\Downloads\\Code\\CodeEngComment\\2_請求\\DemandEdit\\Schema.cs'
+if  sourceComments(file_path,'//'):
+    print('\n Comments found')
+    print("Total comments in this iteration -"+str(total_comment_count))
+    store_comment_count_location = 'C:\\Users\\b.mushtaq\\Downloads\\Code\\TotalComments.txt'
+    with (store_comment_count_location,'w')as fo:
+        all_lines = fo.readlines()
+        last_line = all_lines[-1]
+        updated_total_value = total_comment_count+int(last_line)
+        fo.write('\n%d' % updated_total_value)
+    end_time = time.time()
+    print("\n Time in seconds"+str(end_time-start_time))
+else:
+    print('\n Try again')
+
+
