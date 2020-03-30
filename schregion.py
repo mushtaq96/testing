@@ -15,7 +15,13 @@ def sourceComments(filename,string):
         #traverse each line for Japanese
         for eachline in ro.readlines():
             if isRegionJapanese(eachline)==False and isCommentJapanese(eachline,string)==False:
-                file_lines.append(eachline)                
+                if containsJapanese(eachline)==True:
+                    string_to_add = translateToEnglish(eachline)#english translation for line
+                    eng_list_of_translated_comments.append(string_to_add)
+                    removeNewlineChar = eachline.rstrip()
+                    addNewLine = ' '.join([removeNewlineChar,string_to_add,'\n'])
+                    file_lines.append(addNewLine)           
+                    file_lines.append(eachline)                
             else:
                 string_to_add = translateToEnglish(eachline)#english translation for line
                 eng_list_of_translated_comments.append(string_to_add)
