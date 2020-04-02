@@ -156,12 +156,12 @@ def startProgram(path,string):
 ###
 
 ### code for individual files
-file_path = 'C:\\Users\\b.mushtaq\\Downloads\\Code\\CodeEngComment\\1_受注\OrderEdit\\Model - Copy.cs'
+file_path = 'C:\\Users\\b.mushtaq\\Code\\CodeEngComment\\4_売上\\PaymentTransfer\\Model.cs'
 if  sourceComments(file_path,'//'):
     print('\n Comments found')
     print("Total comments in this iteration -"+str(total_comment_count))
-    store_comment_count_location = 'C:\\Users\\b.mushtaq\\Downloads\\Code\\TotalComments.txt'
-    with (store_comment_count_location,'w')as fo:
+    store_comment_count_location = 'C:\\Users\\b.mushtaq\\Code\\TotalComments.txt'
+    with open(store_comment_count_location,'r+',encoding='utf-8')as fo:
         all_lines = fo.readlines()
         last_line = all_lines[-1]
         updated_total_value = total_comment_count+int(last_line)
